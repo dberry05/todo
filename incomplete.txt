@@ -1,0 +1,9 @@
+add ppause to click to let user know somethigns is happening
+change color of minus sign when adding a task
+change it back after it has been saved
+create double click toggle for opeen/close
+create filter buttton for filter tasks
+sort tasks alphabetical
+modol flyout for instructions
+create print tasks modal with print function
+display on page by type

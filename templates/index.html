@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<title>Update Items</title>	
+
+		<link href="../assets/css/bootstrap.css" rel="stylesheet">
+		<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+		<link href="css/update_items.css" rel="stylesheet">
+		
+		<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script>
+		<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+		<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
+	</head>
+
+	<body>
+
+		<div class="navbar navbar-inverse navbar-fixed-top">
+		  <div class="navbar-inner">
+			<div class="container">
+			  <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			  </button>
+			  <a class="brand" href="#">Update Tasks</a>
+			  <div class="nav-collapse collapse">
+				<ul class="nav">
+				  <li class="active"><a href="#">Home</a></li>
+				  <li><a href="print.html">About</a></li>
+				  <li><a href="#contact">Contact</a></li>
+				</ul>
+			  </div><!--/.nav-collapse -->
+			</div>
+		  </div>
+		</div>
+
+		<div class="container">
+			<h1>Update to do tasks</h1>
+			<p>Use this page to list, add, edit, and close tasks.<br>
+			<a href="#">Click here for instructions.</a></p>
+			<button id="show_all" onClick="choose(1)" value="10"></button></br>
+
+			<table>
+				<thead><tr>
+					<th>id</th><th>item</th><th>status</th><th>type</t<th></th>
+				</tr></thead>
+				
+				<tbody data-bind="foreach: tasks, visible: tasks().length > 0">
+					<tr>
+						<td><input type="text" name="id" id="id" data-bind="value: id"></td>
+						<td><input type="text" name="description" id="description" data-bind="value: item"></td>
+						<td><input type="text" name="type" id="type" data-bind="value: type"></td>
+						<td><input type="text" name="status" id="status" data-bind="value: status"></td>
+						<td><button id="minus_button" name="button" data-bind="click: $root.updateTask"></button></td>
+					</tr>    
+				</tbody>
+			</table>			
+			 
+			<div id='add'>
+				<button id="add_button" data-bind="click: $root.addTask"></button>
+			</div>
+		</div> <!-- /container -->
+
+		<!-- Scripts -->
+		<script>		
+			// Class to represent a row in the tasks grid
+			function Task(data) {
+				var self = this;			
+				self.id = ko.observable(data.id);
+				self.item = ko.observable(data.item);
+				self.status = ko.observable(data.status);
+				self.type = ko.observable(data.type);
+			}
+
+			function TaskListViewModel() {
+				// Data
+				var self = this;
+				self.tasks = ko.observableArray([]);
+				self.newTaskText = ko.observable();
+
+				// Load initial state from server, convert it to Task instances, then populate self.tasks
+				$.getJSON("/todo/api/v1.0/tasks", function(data) {
+					var my_data = data.tasks
+					var mappedTasks = $.map(my_data, function(item) { return new Task(item) });
+					self.tasks(mappedTasks);				
+				});
+					
+				// Operations
+				self.addTask = function() {
+					self.tasks.push(new Task({ title: this.newTaskText() }));
+					self.newTaskText("");
+				};
+				
+				self.updateTask = function(my_task) {
+					if (my_task.status() == 'closed') {
+						self.tasks.remove(my_task);
+					}
+					if (my_task.id() === undefined) {
+						//var the_task = ko.toJSON(my_task);
+						$.ajax("/todo/api/v1.0/tasks", {
+							data: ko.toJSON({item: my_task.item(), type: my_task.type()}),
+							type: "post", contentType: "application/json",
+							success: function(result) { alert("New task added."); }
+						});	
+					}
+					// for updates and closures					
+					else {
+					
+						$.ajax("/todo/api/v1.0/tasks/" + my_task.id(), {
+							data: ko.toJSON(my_task),
+							type: "put", contentType: "application/json",
+							success: function(result) { x = 1 }
+						});
+					}
+				};
+			}
+
+			ko.applyBindings(new TaskListViewModel());	
+		</script>
+		
+		<script src="../assets/js/jquery.js"></script>
+		<script src="../assets/js/bootstrap-transition.js"></script>
+		<script src="../assets/js/bootstrap-alert.js"></script>
+		<script src="../assets/js/bootstrap-modal.js"></script>
+		<script src="../assets/js/bootstrap-dropdown.js"></script>
+		<script src="../assets/js/bootstrap-scrollspy.js"></script>
+		<script src="../assets/js/bootstrap-tab.js"></script>
+		<script src="../assets/js/bootstrap-tooltip.js"></script>
+		<script src="../assets/js/bootstrap-popover.js"></script>
+		<script src="../assets/js/bootstrap-button.js"></script>
+		<script src="../assets/js/bootstrap-collapse.js"></script>
+		<script src="../assets/js/bootstrap-carousel.js"></script>
+		<script src="../assets/js/bootstrap-typeahead.js"></script>
+
+	</body>
+</html>
+

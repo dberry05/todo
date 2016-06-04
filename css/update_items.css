@@ -1,0 +1,48 @@
+body {
+    background-color: #b0c4de;
+	} 
+
+#id {width: 42px;}
+#name {width: 450px;}
+#type {width: 85px;}
+#status {width: 42px;}
+
+#minus_button {
+    width: 30px;
+    height: 40px;
+	background-color: Transparent;
+    background-image: url('../images/minus.png');
+    background-repeat: no-repeat;
+	border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+}
+	
+#add_button {
+    width: 30px;
+    height: 30px;
+	background-color: Transparent;
+    background-image: url('../images/plus2.png');
+    background-repeat: no-repeat;
+	border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+}
+
+#show_all {
+    width: 127px;
+    height: 40px;
+	background-color: Transparent;
+    background-image: url('../images/show_all.png');
+    background-repeat: no-repeat;
+	border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+}
+
+#add { 
+	margin-left:440px; 
+}
