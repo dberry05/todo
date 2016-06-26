@@ -68,7 +68,7 @@ def get_types():
 @app.route('/todo/api/v1.0/tasks/<type_name>', methods=['GET'])
 def get_tasks_by_type(type_name):
     tasks = db.get_tasks_by_type(type_name)
-    print tasks
+    print(tasks)
     return jsonify({'tasks': tasks})
 
 
