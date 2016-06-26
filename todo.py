@@ -4,7 +4,7 @@ import sqlite3
 import json
 import db_lib as db  # library of custom database functions
 from datetime import datetime
-from flask.ext.httpauth import HTTPBasicAuth
+from flask_httpauth import HTTPBasicAuth
 import os
 
 ##############################################################################################
