@@ -1,7 +1,7 @@
 import sqlite3, json
 from datetime import datetime
 
-DB = 'z:/data/site/db/home.db'
+DB = '/media/data/data/site/db/home.db'
 
 def dict_factory(cursor, row):
     d = {}
