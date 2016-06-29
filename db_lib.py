@@ -1,7 +1,7 @@
 import sqlite3, json
 from datetime import datetime
 
-DB = '/media/data/data/site/db/home.db'
+DB = '/app/db/home.db'
 
 def dict_factory(cursor, row):
     d = {}
@@ -65,7 +65,7 @@ def update_task(task):
         task['date_closed'] = datetime.now()
     format_sql = ', '.join(["{}='{}'".format(k,v) for k,v in task.iteritems()])
     SQL="UPDATE todo SET %s WHERE id=%s" % (format_sql, task['id'])
-    con = sqlite3.connect('z:/data/site/db/home.db')
+    con = sqlite3.connect(DB)
     cur = con.cursor()
     cur.execute(SQL)
     con.commit()
