@@ -1,8 +1,9 @@
 import sqlite3, json
 from datetime import datetime
 
-#DB = '/app/db/home.db'
-DB = '/media/data/data/site/db/home.db'
+#create if statement here to detect if in container
+DB = '/app/db/home.db'
+#DB = '/media/data/data/site/db/home.db'
 
 
 def execute_query(query):
