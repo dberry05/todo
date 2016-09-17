@@ -107,6 +107,7 @@ def update_task(task_id):
 
     #task = filter(lambda t: t['id'] == task_id, tasks)
     task = [task for task in tasks if task['id'] == task_id]
+    print(task)
     if len(task) == 0:
         abort(404)
         

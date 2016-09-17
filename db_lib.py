@@ -1,7 +1,22 @@
 import sqlite3, json
 from datetime import datetime
 
-DB = '/app/db/home.db'
+#DB = '/app/db/home.db'
+DB = '/media/data/data/site/db/home.db'
+
+
+def execute_query(query):
+    con = sqlite3.connect(db)
+    con.row_factory = dict_factory
+    cur = con.cursor()
+    cur.execute(query)
+    data = cur.fetchall()
+
+
+def get_all_tasks(DB, query):
+    return execute_query(query)
+          
+
 
 def dict_factory(cursor, row):
     d = {}
@@ -17,6 +32,7 @@ def get_all_tasks():
     cur.execute("select * FROM todo")
     my_data =  cur.fetchall()
     return [item for item in my_data]
+
 def get_active_tasks():
     ''' Gets active tasks from todo database and returns json string'''
     con = sqlite3.connect(DB)
@@ -63,7 +79,7 @@ def create_task(task):
 def update_task(task):
     if task['status'] == 'closed':
         task['date_closed'] = datetime.now()
-    format_sql = ', '.join(["{}='{}'".format(k,v) for k,v in task.iteritems()])
+    format_sql = ', '.join(["{}='{}'".format(k,v) for k,v in task.items()])
     SQL="UPDATE todo SET %s WHERE id=%s" % (format_sql, task['id'])
     con = sqlite3.connect(DB)
     cur = con.cursor()
