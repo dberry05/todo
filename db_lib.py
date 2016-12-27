@@ -2,8 +2,8 @@ import sqlite3, json
 from datetime import datetime
 
 #create if statement here to detect if in container
-DB = '/app/db/home.db'
-#DB = '/media/data/data/site/db/home.db'
+#DB = '/app/db/home.db'
+DB = '/media/data/data/site/db/home.db'
 
 
 def execute_query(query):
@@ -15,8 +15,7 @@ def execute_query(query):
 
 
 def get_all_tasks(DB, query):
-    return execute_query(query)
-          
+    return execute_query(query)        
 
 
 def dict_factory(cursor, row):
@@ -84,5 +83,5 @@ def update_task(task):
     SQL="UPDATE todo SET %s WHERE id=%s" % (format_sql, task['id'])
     con = sqlite3.connect(DB)
     cur = con.cursor()
-    cur.execute(SQL)
+    cur.execute("UPDATE todo SET %s WHERE id=%s" % (format_sql, task['id']))
     con.commit()
