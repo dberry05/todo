@@ -1,10 +1,15 @@
 import sqlite3, json
 from datetime import datetime
-
+import string
 #create if statement here to detect if in container
-#DB = '/app/db/home.db'
-DB = '/media/data/data/site/db/home.db'
+#container
+DB = '/app/db/home.db'
+#home
+#DB = '/media/data/data/site/db/home.db'
 
+
+def clean_string(raw_input):
+    return raw_input.replace("'", "")    
 
 def execute_query(query):
     con = sqlite3.connect(db)
@@ -70,6 +75,7 @@ def get_tasks_by_type(type_name):
     return [item for item in my_data]
 
 def create_task(task):
+    task['item'] = clean_string(task['item'])
     conn = sqlite3.connect(DB)
     c = conn.cursor()
     c.execute("INSERT INTO todo (type, item, date_opened, status) VALUES (?, ?, ?, ?)", (task['type'], task['item'], task['date_opened'], task['status']))
